@@ -1,7 +1,8 @@
-# Applied Dynamics Lab — Starter Website
+# Quantum Imaging and Sensing Lab — Website
 
-A 4-page static site (Home, People, Publications, Contact) built with plain
-HTML/CSS — no build tools, no dependencies, free to host on GitHub Pages.
+A 6-page static site (Home, Research, People, Publications, News, Contact)
+built with plain HTML/CSS — no build tools, no dependencies, free to host
+on GitHub Pages.
 
 ## Files
 
@@ -16,11 +17,14 @@ HTML/CSS — no build tools, no dependencies, free to host on GitHub Pages.
 
 ## 1. Customize the content
 
-Everything is placeholder text — the lab name, PI, students, papers, and
-address are all fictional examples for you to replace. Open each `.html`
-file in a text editor (VS Code is a good free option) and search for the
-text you want to change. Nothing here requires touching the CSS unless you
-want to change the look.
+The lab name, PI, and publications list are now real. What's still
+placeholder: grad student/alumni entries on the People page, the quotes on
+the homepage, a couple of undated News items, and the PI bio paragraph
+(degrees, prior positions — deliberately left blank rather than guessed).
+Open each `.html` file in a text editor (VS Code is a good free option) and
+search for bracketed text like `[Student name]` to find what's left to
+fill in. Nothing here requires touching the CSS unless you want to change
+the look.
 
 The design takes inspiration from Squarespace's Oranssi template — bold
 rounded imagery, a service-style card grid, a dark CTA band, and a quote
