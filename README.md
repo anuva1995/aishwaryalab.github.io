@@ -6,8 +6,10 @@ HTML/CSS — no build tools, no dependencies, free to host on GitHub Pages.
 ## Files
 
 - `index.html` — Home
+- `research.html` — Research areas, with longer per-project write-ups
 - `people.html` — Team
 - `publications.html` — Papers, data & code
+- `news.html` — Lab updates, talks, awards
 - `contact.html` — Contact info + message form
 - `style.css` — Shared styles for all pages (edit colors/fonts here once,
   it updates every page)
@@ -73,8 +75,8 @@ give you. Both have generous free tiers for a lab site's traffic.
 
 ## 4. Ideas for what to add next
 
-- A "News" page or section for lab updates, talks, and awards
-- A "Research" page with longer project write-ups and figures
-- Photos — replace the `PHOTO` placeholder boxes in `people.html` with
-  `<img src="images/name.jpg" alt="...">` once you have headshots
+- Photos — replace the `PHOTO`/gradient placeholder boxes with real
+  `<img src="images/name.jpg" alt="...">` tags once you have headshots and
+  field photos (see the note above on `.photo-frame`)
 - Google Scholar / ORCID links next to each person's bio
+- An RSS feed or simple archive if the News page grows long
