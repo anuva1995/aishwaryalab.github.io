@@ -350,6 +350,8 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
 }
 .pub .year { font-family: var(--font-mono); font-size: 13px; color: var(--accent-deep); font-weight: 600; padding-top: 2px; }
 .pub h3 { font-size: 16.5px; margin: 0 0 4px; font-weight: 600; }
+.pub h3 a { color: var(--ink); text-decoration: none; }
+.pub h3 a:hover { color: var(--accent-deep); text-decoration: underline; }
 .pub .meta { font-size: 13px; color: var(--ink-soft); }
 .pub .tag {
   display: inline-block;
