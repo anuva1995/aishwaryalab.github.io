@@ -331,6 +331,8 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
   margin-bottom: 14px;
 }
 
+.point-icon { font-size: 44px; line-height: 1; }
+
 .team-member h3 { font-family: var(--font-display); font-size: 16.5px; margin: 0 0 2px; }
 .team-member .role { font-size: 13px; color: var(--accent-deep); font-weight: 600; margin-bottom: 8px; }
 .team-member p.bio { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
