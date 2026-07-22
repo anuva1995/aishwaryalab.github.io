@@ -200,6 +200,28 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
 
 .hero .photo-frame { min-height: 320px; }
 
+.epigraph {
+  margin: 0;
+  padding: 28px 0 32px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+.epigraph p {
+  margin: 0 0 10px;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-soft);
+}
+.epigraph cite {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-style: normal;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
 /* ---------- Section headers ---------- */
 
 .section-head {
