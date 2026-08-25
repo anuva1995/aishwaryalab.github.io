@@ -136,6 +136,12 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
 .photo-frame.ink { background: linear-gradient(135deg, #3a4250 0%, #1c222b 60%, #10141a 100%); }
 .photo-frame.plain { background: #ffffff; }
 
+/* Annotated scientific figures: never crop — scale bars, legends and axis
+   labels live at the edges. Letterboxes against black to match the dark
+   backgrounds these micrographs are exported on. */
+.photo-frame.figure { background: #000000; }
+.photo-frame.figure img { object-fit: contain; }
+
 /* Avatars reuse the photo-frame gradient system but at fixed circular size */
 .photo-frame.avatar { min-height: 0; align-items: center; justify-content: center; flex-shrink: 0; }
 
@@ -244,17 +250,17 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
 /* Generic cascade for every page's top-level sections. Excludes the
    homepage hero pieces and card grid below, which get their own more
    granular stagger further down so the two schemes don't compound. */
-main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4) {
+main.sheet > *:not(.epigraph):not(.hero-home):not(.grid) {
   opacity: 0;
   animation: fade-up 0.6s ease-out forwards;
 }
-main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(1) { animation-delay: 0.05s; }
-main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(2) { animation-delay: 0.15s; }
-main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(3) { animation-delay: 0.25s; }
-main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(4) { animation-delay: 0.35s; }
-main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(5) { animation-delay: 0.45s; }
-main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(6) { animation-delay: 0.55s; }
-main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(n+7) { animation-delay: 0.6s; }
+main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(1) { animation-delay: 0.05s; }
+main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(2) { animation-delay: 0.15s; }
+main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(3) { animation-delay: 0.25s; }
+main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(4) { animation-delay: 0.35s; }
+main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(5) { animation-delay: 0.45s; }
+main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(6) { animation-delay: 0.55s; }
+main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animation-delay: 0.6s; }
 
 .epigraph { opacity: 0; animation: fade-up 0.7s ease-out forwards; }
 
@@ -272,14 +278,14 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(n+7) {
 .hero-home .hero-actions { animation-delay: 0.45s; }
 .hero-home .photo-frame { animation-delay: 0.2s; }
 
-.grid.cols-4 .card {
+.grid .card {
   opacity: 0;
   animation: fade-up 0.6s ease-out forwards;
 }
-.grid.cols-4 .card:nth-child(1) { animation-delay: 0.55s; }
-.grid.cols-4 .card:nth-child(2) { animation-delay: 0.65s; }
-.grid.cols-4 .card:nth-child(3) { animation-delay: 0.75s; }
-.grid.cols-4 .card:nth-child(4) { animation-delay: 0.85s; }
+.grid .card:nth-child(1) { animation-delay: 0.55s; }
+.grid .card:nth-child(2) { animation-delay: 0.65s; }
+.grid .card:nth-child(3) { animation-delay: 0.75s; }
+.grid .card:nth-child(4) { animation-delay: 0.85s; }
 
 @media (prefers-reduced-motion: reduce) {
   main.sheet > *,
@@ -289,12 +295,124 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(n+7) {
   .hero-home p.lede,
   .hero-home .hero-actions,
   .hero-home .photo-frame,
-  .grid.cols-4 .card {
+  .grid .card {
     opacity: 1;
     animation: none;
     transform: none;
   }
 }
+
+/* ---------- Slideshow ---------- */
+
+/* Rotating image panel. Degrades to a single static image when only one
+   slide is present (JS adds data-single, which hides the dots). */
+.slideshow {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--line);
+  background: #000000;
+  aspect-ratio: 5 / 2;
+  margin-top: 40px;
+}
+
+@media (max-width: 700px) { .slideshow { aspect-ratio: 3 / 2; } }
+
+.slideshow .slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.slideshow .slide.is-active { opacity: 1; }
+
+.slideshow .slide img { width: 100%; height: 100%; object-fit: cover; }
+
+.slideshow figcaption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  padding: 12px 16px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+
+.slideshow .dots {
+  position: absolute;
+  right: 14px;
+  bottom: 13px;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+.slideshow[data-single] .dots { display: none; }
+
+.slideshow .dots button {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.75);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.slideshow .dots button:hover { background: rgba(255,255,255,0.6); }
+.slideshow .dots button[aria-current="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* No crossfade for readers who ask for reduced motion; the script also
+   skips auto-advance entirely in that case. */
+@media (prefers-reduced-motion: reduce) {
+  .slideshow .slide { transition: none; }
+}
+
+/* ---------- Intro prose ---------- */
+
+/* Opening statement on the homepage: centered headline over a justified
+   description of what the group does. The block itself is centered in the
+   sheet; the body copy is set flush on both edges. */
+.intro-prose {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: 64px 0 8px;
+}
+
+.intro-prose h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.6vw, 50px);
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-align: center;
+  margin: 0 0 26px;
+}
+
+/* Hyphenation keeps justified text from opening up rivers of whitespace
+   between words on narrow viewports. */
+.intro-prose p {
+  font-size: 17px;
+  line-height: 1.72;
+  color: var(--ink-soft);
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  margin: 0 0 18px;
+}
+
+.intro-prose p:last-child { margin-bottom: 0; }
 
 /* ---------- Section headers ---------- */
 
@@ -442,6 +560,96 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid.cols-4):nth-child(n+7) {
 .quote-card p.q { font-size: 15px; margin: 0 0 16px; }
 .quote-card p.q::before { content: "\201C"; color: var(--accent); font-size: 28px; line-height: 0; display: inline-block; vertical-align: -6px; margin-right: 2px; }
 .quote-card .attr { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.03em; }
+
+/* ---------- Talks ---------- */
+
+.talk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+@media (max-width: 860px) { .talk-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .talk-grid { grid-template-columns: 1fr; } }
+
+.talk-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.talk-card .thumb {
+  position: relative;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  aspect-ratio: 16 / 9;
+  margin-bottom: 12px;
+}
+
+.talk-card .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.talk-card:hover .thumb img { transform: scale(1.05); }
+
+/* maxresdefault.jpg is native 16:9, but older uploads only have
+   hqdefault.jpg — 4:3 with letterbox bars. Add .crop to the .thumb
+   in that case to scale up and recover the 16:9 frame. */
+.talk-card .thumb.crop img { transform: scale(1.35); }
+.talk-card:hover .thumb.crop img { transform: scale(1.42); }
+
+/* Add .photo when the thumb is a real 3:2 event photo rather than a
+   YouTube still — biases the 16:9 crop upward so the speaker's head
+   isn't clipped. */
+.talk-card .thumb.photo img { object-position: center 30%; }
+
+.talk-card .thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
+}
+
+/* Play badge */
+.talk-card .play {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 54px; height: 54px;
+  border-radius: 100px;
+  background: rgba(18,21,26,0.72);
+  border: 1px solid rgba(245,237,224,0.35);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.talk-card .play::before {
+  content: "";
+  border-style: solid;
+  border-width: 9px 0 9px 15px;
+  border-color: transparent transparent transparent var(--cta-text);
+  margin-left: 4px;
+}
+.talk-card:hover .play { background: var(--accent); border-color: var(--accent); }
+.talk-card:hover .play::before { border-left-color: #12151a; }
+
+.talk-card h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0 0 4px;
+}
+.talk-card:hover h3 { color: var(--accent-deep); }
+
+.talk-card .venue {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  margin: 0;
+}
 
 /* ---------- Publications ---------- */
 

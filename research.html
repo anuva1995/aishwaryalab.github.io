@@ -32,10 +32,15 @@
 
 <main class="sheet">
 
-  <section class="section-head" style="padding-top:56px;">
+  <blockquote class="epigraph">
+    <p>&ldquo;Nobody ever figures out what life is all about, and it doesn&rsquo;t matter. Explore the world. Nearly everything is really interesting if you go into it deeply enough.&rdquo;</p>
+    <cite>— Richard P. Feynman</cite>
+  </blockquote>
+
+  <section class="section-head" style="padding-top:44px;">
     <p class="kicker">What we work on</p>
     <h2 style="font-size:38px;">Research</h2>
-    <p>Four threads run through the lab's projects, each grounded in
+    <p>Three threads run through the lab's projects, each grounded in
     atomic-resolution imaging and quantum sensing rather than bulk
     measurements alone.</p>
   </section>
@@ -82,7 +87,7 @@
   </section>
 
   <!-- Project 3 -->
-  <section class="fig-project" style="margin-top:72px;">
+  <section class="fig-project" style="margin-top:72px; margin-bottom:80px;">
     <div class="hero" style="padding:0; grid-template-columns: 0.9fr 1.1fr;">
       <div class="photo-frame ink"><span class="cap">Fig. 3 — Charge density wave domain wall</span></div>
       <div>
@@ -102,7 +107,10 @@
     </div>
   </section>
 
-  <!-- Project 4 -->
+  <!-- Project 4 — AI-driven imaging, on hold for now. To restore: uncomment,
+       drop the margin-bottom from Project 3 above, and change the intro back
+       to "Four threads run through the lab's projects".
+
   <section class="fig-project" style="margin-top:72px; margin-bottom:80px;">
     <div class="hero" style="padding:0; grid-template-columns: 1.1fr 0.9fr;">
       <div>
@@ -126,6 +134,47 @@
       <div class="photo-frame"><span class="cap">Fig. 4 — Machine-learning-assisted spectroscopic map</span></div>
     </div>
   </section>
+  -->
+
+  <!-- Talks — to add one, copy an <a class="talk-card"> block and swap in
+       the video id (the part of the URL after v= or after youtu.be/). If a
+       video has no maxresdefault.jpg, use hqdefault.jpg and add the "crop"
+       class to its .thumb. -->
+  <section class="section-head" style="padding-top:8px;">
+    <p class="kicker">Watch the work</p>
+    <h2>Recorded talks</h2>
+    <p>Seminars and conference talks on the projects above.</p>
+  </section>
+
+  <div class="talk-grid" style="margin-bottom:80px;">
+
+    <a class="talk-card" href="https://www.youtube.com/watch?v=_4EF3ELlhk8"
+       target="_blank" rel="noopener">
+      <div class="thumb">
+        <span class="play"></span>
+        <img src="https://img.youtube.com/vi/_4EF3ELlhk8/maxresdefault.jpg"
+             alt="Talk: The curious case of the magnetic field-sensitive charge density waves in UTe₂"
+             loading="lazy">
+      </div>
+      <h3>The curious case of the magnetic field-sensitive charge density
+      waves in UTe₂</h3>
+      <p class="venue">EPiQS Postdoctoral Seminar Series · Jan 2024</p>
+    </a>
+
+    <!-- Multi-speaker session; t=2363 jumps to the start of Anuva's talk. -->
+    <a class="talk-card" href="https://www.youtube.com/watch?v=PQipd6GOk80&amp;t=2363s"
+       target="_blank" rel="noopener">
+      <div class="thumb photo">
+        <span class="play"></span>
+        <img src="images/chicago2022.jpg"
+             alt="Anuva Aishwarya speaking at the Chicago Quantum Exchange Summit, 2022"
+             loading="lazy">
+      </div>
+      <h3>Quantum Creators Session: Novel Quantum Materials</h3>
+      <p class="venue">Chicago Quantum Exchange Summit · 2022</p>
+    </a>
+
+  </div>
 
   <div class="cta-band" style="margin-top:0;">
     <h2>Curious about a project?</h2>

@@ -33,10 +33,8 @@
 
 <main class="sheet">
 
-  <blockquote class="epigraph">
-    <p>&ldquo;Nobody ever figures out what life is all about, and it doesn&rsquo;t matter. Explore the world. Nearly everything is really interesting if you go into it deeply enough.&rdquo;</p>
-    <cite>— Richard P. Feynman</cite>
-  </blockquote>
+  <!-- Homepage hero, on hold for now — the intro prose below opens the page
+       instead. To restore, just uncomment.
 
   <section class="hero hero-home">
     <div>
@@ -53,14 +51,66 @@
       <span class="cap">Fig. 1 — STM topography of UTe₂</span>
     </div>
   </section>
+  -->
+
+  <div class="slideshow" data-slideshow role="region"
+       aria-roledescription="carousel" aria-label="Featured lab images">
+    <div class="slides">
+
+      <figure class="slide is-active">
+        <img src="images/ute2-topo.png"
+             alt="STM topography of the quantum material UTe₂, showing the atomic lattice">
+        <figcaption>Fig. 1 — STM topography of UTe₂</figcaption>
+      </figure>
+
+      <!-- Slots 2-4. Uncomment one block per image as they're ready; the
+           dots and auto-advance switch on automatically once a second
+           slide exists. Do not put "is-active" on these.
+
+      <figure class="slide">
+        <img src="images/FILENAME.png" alt="DESCRIPTION">
+        <figcaption>Fig. 2 — CAPTION</figcaption>
+      </figure>
+
+      <figure class="slide">
+        <img src="images/FILENAME.png" alt="DESCRIPTION">
+        <figcaption>Fig. 3 — CAPTION</figcaption>
+      </figure>
+
+      <figure class="slide">
+        <img src="images/FILENAME.png" alt="DESCRIPTION">
+        <figcaption>Fig. 4 — CAPTION</figcaption>
+      </figure>
+      -->
+
+    </div>
+    <div class="dots"></div>
+  </div>
+
+  <div class="intro-prose">
+    <h1>From atomic landscapes to quantum dynamics</h1>
+    <p>One of the longstanding challenges in quantum materials research is to
+    understand how collective quantum phenomena emerge from the interactions
+    of many electrons constrained by symmetry, topology, and the underlying
+    crystal environment. Our group develops and employs high-resolution
+    scanning tunneling microscopy and quantum sensing with color centers in
+    diamond to visualize these states at the atomic and nanoscale at low
+    temperatures.</p>
+    <p>By combining complementary probes of charge and spin, we aim to uncover
+    the microscopic mechanisms behind unconventional superconductivity,
+    correlated charge and spin orders, and other emergent quantum states.
+    Ultimately, our goal is not only to understand these complex materials,
+    but also to develop new experimental tools for discovering, controlling,
+    and harnessing quantum phenomena.</p>
+  </div>
 
   <section class="section-head">
     <p class="kicker">What we work on</p>
-    <h2>Four threads run through the lab</h2>
+    <h2>Three threads run through the lab</h2>
     <p>Each grounded in atomic-resolution imaging rather than bulk measurements alone.</p>
   </section>
 
-  <div class="grid cols-4">
+  <div class="grid cols-3">
     <div class="card">
       <div class="mark">01</div>
       <h3>Unconventional superconductivity</h3>
@@ -80,12 +130,16 @@
       <p>Visualizing charge density waves, spin excitations, and topological
       defects in correlated materials such as 1T-TaS₂ and GdTe₃.</p>
     </div>
+    <!-- Fourth thread, on hold for now. To restore: uncomment, switch the
+         grid above back to "grid cols-4", and change the heading back to
+         "Four threads run through the lab".
     <div class="card">
       <div class="mark">04</div>
       <h3>AI-driven imaging</h3>
       <p>Using machine learning to extract hidden order and structure from
       STM and NV-center imaging data across our quantum materials platforms.</p>
     </div>
+    -->
   </div>
 
   <section class="section-head">
@@ -161,6 +215,56 @@
     <span><a href="contact.html">Get in touch</a></span>
   </div>
 </footer>
+
+<script>
+// Crossfading image panel. Auto-advances, pauses on hover/focus, and stays
+// a plain static image if there is only one slide or the reader prefers
+// reduced motion.
+document.querySelectorAll('[data-slideshow]').forEach(function (box) {
+  var slides = Array.prototype.slice.call(box.querySelectorAll('.slide'));
+  if (slides.length < 2) { box.setAttribute('data-single', ''); return; }
+
+  var dots = box.querySelector('.dots');
+  var timer = null;
+  var index = Math.max(0, slides.findIndex(function (s) {
+    return s.classList.contains('is-active');
+  }));
+
+  var buttons = slides.map(function (slide, n) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Show image ' + (n + 1) + ' of ' + slides.length);
+    b.addEventListener('click', function () { show(n); restart(); });
+    dots.appendChild(b);
+    return b;
+  });
+
+  function show(n) {
+    index = (n + slides.length) % slides.length;
+    slides.forEach(function (s, k) { s.classList.toggle('is-active', k === index); });
+    buttons.forEach(function (b, k) {
+      b.setAttribute('aria-current', k === index ? 'true' : 'false');
+    });
+  }
+
+  function start() {
+    if (timer) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    timer = setInterval(function () { show(index + 1); }, 6000);
+  }
+
+  function stop() { clearInterval(timer); timer = null; }
+  function restart() { stop(); start(); }
+
+  box.addEventListener('mouseenter', stop);
+  box.addEventListener('mouseleave', start);
+  box.addEventListener('focusin', stop);
+  box.addEventListener('focusout', start);
+
+  show(index);
+  start();
+});
+</script>
 
 </body>
 </html>
