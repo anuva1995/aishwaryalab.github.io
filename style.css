@@ -330,6 +330,29 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 
 .slideshow .slide img { width: 100%; height: 100%; object-fit: cover; }
 
+/* The panel is far wider than these figures, so cover() crops top and
+   bottom. Add .anchor-top to a slide whose meaningful content (a signal
+   trace, a scale bar, a label) sits near the top edge. The window sits
+   just below the very top so the frame isn't mostly empty background;
+   pushing this much past ~12% starts clipping content at the top edge. */
+.slideshow .slide.anchor-top img { object-position: center 10%; }
+
+/* Add .fit to a slide carrying a full data figure — axis labels, colorbars
+   and scale bars live at the edges, so it must never be cropped. Letterboxes
+   against the panel's black background, which these figures are exported on. */
+.slideshow .slide.fit img { object-fit: contain; }
+
+/* Backdrop for a slide whose image has a transparent background.
+   Change this one colour to taste. */
+.slideshow .slide.on-white { background: #ffffff; }
+
+/* The caption is light with a dark halo by default, for legibility over
+   photographs. On a white backdrop it needs the opposite treatment. */
+.slideshow .slide.on-white figcaption {
+  color: #000000;
+  text-shadow: none;
+}
+
 .slideshow figcaption {
   position: absolute;
   left: 0;
