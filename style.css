@@ -75,12 +75,54 @@ header.masthead {
   gap: 14px;
 }
 
+/* The masthead's left column is the mono affiliation line, then a lockup
+   holding the lab name and its subtitle on a shared baseline, split by a
+   hairline. Keeping them on one line makes the header short, but it is
+   also the widest arrangement — see the breakpoint below, where the
+   subtitle wraps to its own line and the hairline is dropped. */
+/* Centred, not baseline-aligned: sharing a baseline with a 26px name makes
+   small uppercase text read as sitting too low, because all-caps has no
+   descenders to balance it. Centring lines the subtitle's cap height up
+   with the middle of the name instead. */
+.masthead-lockup {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 2px;
+}
+
 .masthead-name {
   font-family: var(--font-display);
   font-size: 26px;
   font-weight: 700;
+  line-height: 1.15;
   margin: 0;
   letter-spacing: -0.01em;
+}
+
+/* Stretches to the lockup's line box rather than carrying a fixed height,
+   so it always matches the name's cap height. */
+.masthead-bar {
+  width: 1px;
+  align-self: stretch;
+  margin: 3px 0;
+  background: var(--line);
+}
+
+/* line-height: 1 makes the box hug the caps, so the centring above lands
+   on the letterforms rather than on the leading around them. Tracking this
+   wide leaves a trailing gap on the right, which is invisible while the
+   block stays left-aligned. */
+.masthead-sub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0;
 }
 
 .masthead-id {
@@ -90,6 +132,17 @@ header.masthead {
   color: var(--ink-soft);
   text-transform: uppercase;
   margin: 0;
+}
+
+/* On narrow screens the nav wraps below the wordmark and the lockup can no
+   longer hold one line, so the subtitle drops under the name. The hairline
+   goes with it — left in place it would stretch the full two-line height
+   and read as a stray rule. */
+@media (max-width: 620px) {
+  .masthead-lockup { gap: 4px; }
+  .masthead-bar { display: none; }
+  .masthead-name { font-size: 22px; }
+  .masthead-sub { font-size: 11px; letter-spacing: 0.1em; }
 }
 
 nav.primary-nav ul {

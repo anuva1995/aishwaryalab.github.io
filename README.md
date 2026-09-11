@@ -1,4 +1,4 @@
-# Quantum Imaging and Sensing Lab — Website
+# The Aishwarya Lab — Website
 
 A 6-page static site (Home, Research, People, Publications, News, Contact)
 built with plain HTML/CSS — no build tools, no dependencies, free to host
