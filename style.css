@@ -195,6 +195,15 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
 .photo-frame.figure { background: #000000; }
 .photo-frame.figure img { object-fit: contain; }
 
+/* For an annotated figure exported on a white ground instead of black.
+   Keeps .figure's no-crop rule and flips the letterbox bars and caption to
+   suit it — the same pairing as .fit/.on-white in the slideshow. */
+.photo-frame.figure.on-white { background: #ffffff; }
+.photo-frame.figure.on-white .cap {
+  color: rgba(0,0,0,0.78);
+  text-shadow: none;
+}
+
 /* Avatars reuse the photo-frame gradient system but at fixed circular size */
 .photo-frame.avatar { min-height: 0; align-items: center; justify-content: center; flex-shrink: 0; }
 
@@ -214,7 +223,6 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
   color: rgba(255,255,255,0.85);
   padding: 12px 16px;
   letter-spacing: 0.03em;
-  text-transform: uppercase;
   text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
@@ -416,7 +424,6 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
   color: rgba(255,255,255,0.85);
   padding: 12px 16px;
   letter-spacing: 0.03em;
-  text-transform: uppercase;
   text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
@@ -774,6 +781,88 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 
 /* ---------- Contact ---------- */
 
+/* The contact page is a single prose column — no cards, no form. Narrower
+   measure than .intro-prose and left-aligned, to sit under the left-aligned
+   .section-head above it. */
+.contact-note {
+  max-width: 58ch;
+  padding: 12px 0 0;
+}
+
+.contact-note p {
+  font-size: 17px;
+  line-height: 1.72;
+  color: var(--ink-soft);
+  margin: 0 0 20px;
+}
+
+.contact-note p:last-child { margin-bottom: 0; }
+
+/* The email is the one thing a visitor came for, so it gets the mono face
+   and the accent rather than sitting inside a run of prose. */
+.contact-note .email {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  margin-bottom: 28px;
+}
+
+.contact-note .email a { color: var(--accent-deep); }
+
+/* Address on the left, map on the right. This block sits outside the 58ch
+   prose measure above, because the two columns together need more width
+   than comfortable reading allows. */
+.address-block {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+  max-width: 780px;
+  margin-top: 44px;
+  padding-bottom: 96px;
+}
+
+@media (max-width: 640px) {
+  .address-block { grid-template-columns: 1fr; gap: 20px; }
+}
+
+/* A quiet mono label, in the same register as .masthead-id rather than
+   another heading. */
+.address-block .address-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+}
+
+.address-block .address {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* The embed ships with width="600" height="450", which would overflow its
+   column on a phone. Dropping those attributes and driving the size from
+   here lets it fill the grid column at a 4:3 shape and shrink when the
+   block stacks. */
+.address-block .address-map {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.address-block .address-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* .contact-grid and the .field styles below are unused now that the form is
+   gone — kept in case the form comes back. */
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
 @media (max-width: 720px) { .contact-grid { grid-template-columns: 1fr; } }
 

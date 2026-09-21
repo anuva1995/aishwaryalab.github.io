@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Aishwarya Lab — Techniques</title>
+<title>Aishwarya Lab — Techniques</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -15,7 +15,7 @@
     <div>
       <p class="masthead-id">Department of Physics · National University of Singapore</p>
       <div class="masthead-lockup">
-        <p class="masthead-name">The Aishwarya Lab</p>
+        <p class="masthead-name">Aishwarya Lab</p>
         <span class="masthead-bar" aria-hidden="true"></span>
         <p class="masthead-sub">Quantum Imaging and Sensing Group</p>
       </div>
@@ -48,14 +48,18 @@
   <!-- Setup 1 -->
   <section class="fig-project" style="margin-top:48px;">
     <div class="hero" style="padding:0; grid-template-columns: 0.9fr 1.1fr;">
-      <div class="photo-frame"><span class="cap">Fig. 1 — STM head inside the cryostat</span></div>
+      <div class="photo-frame figure">
+        <img src="images/STM%20circuit.png"
+             alt="Illustration of a scanning tunneling microscope and its measurement circuit. A piezoelectric tube scanner holds a metal tip above a sample, with electrons tunneling across the gap; an inset magnifies the tip apex and the tunneling electrons. The circuit shows the tunneling current going through a pre-amplifier to a lock-in amplifier, which returns dI/dV to the computer electronics, and the electronics feeding back to the z-piezo, with AC and DC bias applied to the sample.">
+        <span class="cap">Schematic of STM circuit</span>
+      </div>
       <div>
         <p class="hero-eyebrow">Setup 01 — Ultra-Low Temperature Scanning Tunneling Microscopy and Spectroscopy (STM/S)</p>
         <h3 style="font-family:var(--font-display); font-size:26px; margin:0 0 14px;">Atomic-resolution mapping of electron wavefunctions</h3>
         <p style="color:var(--ink-soft); max-width:56ch;"> Scanning tunneling microscopy enables direct visualization of the electronic 
           structure of quantum materials with atomic resolution. We are commissioning a Unisoku ULT-STM operating at millikelvin temperatures and in high magnetic fields. 
-          Our STM will enable access to the local electronic wavefunctions of quantum materials with exceptional energy and spatial resolution. </em></p>
-        <p style="margin-top:14px;"><span class="tag">STM/STS</span> <span class="tag">Cryogenic UHV</span></p>
+          Our STM will enable access to the local electronic wavefunctions of quantum materials with exceptional energy and spatial resolution.</p>
+        <p style="margin-top:14px;"></p>
       </div>
     </div>
   </section>
@@ -65,18 +69,22 @@
     <div class="hero" style="padding:0; grid-template-columns: 1.1fr 0.9fr;">
       <div>
         <p class="hero-eyebrow">Setup 02 — Quantum sensing with NV Centers </p>
-        <h3 style="font-family:var(--font-display); font-size:26px; margin:0 0 14px;">Spin-Qubits as nanoscle magnetometers</h3>
+        <h3 style="font-family:var(--font-display); font-size:26px; margin:0 0 14px;">Spin-Qubits as nanoscale magnetometers</h3>
         <p style="color:var(--ink-soft); max-width:56ch;">Nitrogen-vacancy
         (NV) centers in diamond are atomic-scale spin defects that are robust spin-qubits. We employ them as
         magnetometers, sensitive enough to image nanoscale magnetic textures, current
         flow, and spin dynamics without the constraints of tunneling-based
-        probes. This is capability is
+        probes. This capability is
         intended to complement our STM system by extending measurements to
         insulating samples and to a non-contact, non-invasive magnetic-field-sensing
-        modality. </em></p>
-        <p style="margin-top:14px;"><span class="tag">NV magnetometry</span> <span class="tag">Quantum sensing</span></p>
+        modality.</p>
+        <p style="margin-top:14px;"></p>
       </div>
-      <div class="photo-frame ink"><span class="cap">Fig. 2 — NV-diamond sensing platform (in development)</span></div>
+      <div class="photo-frame figure">
+        <img src="images/NV_centers.png"
+             alt="Illustration of nitrogen-vacancy magnetometry. A diamond slab holding NV spins is held above a magnetically ordered sample; a green laser excites the NV centers and red fluorescence is emitted, while field lines run from one NV center down to the alternating red and blue spins of the sample below. An inset shows the NV defect itself — a nitrogen atom beside a vacancy in the carbon lattice.">
+        <span class="cap">NV-diamond sensing platform (in development)</span>
+      </div>
     </div>
   </section>
 
@@ -93,7 +101,7 @@
       <div class="photo-frame figure">
         <img src="images/nanowire.png"
              alt="False-color scanning electron micrograph of a nanowire tip mounted on an STM probe, annotated to show spin-up electrons travelling down the wire and spin-down electrons travelling up. Scale bar: 10 micrometres.">
-        <span class="cap">Fig. 3 — Topological nanowire tip</span>
+        <span class="cap">Topological nanowire tip</span>
       </div>
       <div>
         <p class="hero-eyebrow">Technique 01 — Novel Probes</p>
@@ -103,7 +111,7 @@
         These tips can be tailored to couple to specific electronic, superconducting
         or magnetic ground states we are investigating, and can sometimes give rise to unexpected, novel 
         physical phenomena such as axionic tunneling for topological materials.</p>
-        <p style="margin-top:14px;"><span class="tag">Custom probes</span> <span class="tag">Nanowire tips</span></p>
+        <p style="margin-top:14px;"></p>
       </div>
     </div>
   </section>
@@ -122,28 +130,21 @@
         are working towards arbitrary pulse sequences, real-time
         experimental control, and rapid implementation of novel sensing
         techniques for nitrogen-vacancy center magnetometry.</p>
-        <p style="margin-top:14px;"><span class="tag">FPGA control</span> <span class="tag">Pulse sequencing</span></p>
+        <p style="margin-top:14px;"></p>
       </div>
       <div class="photo-frame">
         <img src="images/fpga.png"
              alt="Illustration of an FPGA on a circuit board driving microwave pulse sequences out and receiving readout signals back">
-        <span class="cap">Fig. 4 — FPGA pulse generation and readout</span>
+        <span class="cap">FPGA pulse generation and readout</span>
       </div>
     </div>
   </section>
-
-  <div class="cta-band" style="margin-top:0;">
-    <h2>Curious about our instrumentation?</h2>
-    <p>Get in touch — we're happy to talk through the setups with prospective
-    students and collaborators.</p>
-    <a class="btn primary" href="contact.html">Contact the lab</a>
-  </div>
 
 </main>
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <span>© 2026 The Aishwarya Lab, National University of Singapore</span>
+    <span>© 2026 Aishwarya Lab, National University of Singapore</span>
     <span><a href="contact.html">Get in touch</a></span>
   </div>
 </footer>
