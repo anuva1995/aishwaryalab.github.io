@@ -26,8 +26,10 @@
   --radius: 20px;
   --radius-sm: 12px;
 
-  --font-display: "Sora", "Arial", sans-serif;
-  --font-body: "Inter", -apple-system, sans-serif;
+  /* One family, three voices: IBM Plex was drawn for technical
+     documentation, so the display/body/mono cuts share a skeleton. */
+  --font-display: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
