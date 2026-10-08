@@ -23,6 +23,12 @@
   --cta-text: #f5ede0;
   --cta-text-soft: rgba(245,237,224,0.72);
 
+  /* Text over a photograph or figure, where the backdrop is uncontrolled.
+     Not --ink: these sit on images, not on --paper. */
+  --ink-on-image: rgba(255,255,255,0.85);
+  /* Text on a filled accent swatch (the card mark). */
+  --on-accent: #ffffff;
+
   --radius: 20px;
   --radius-sm: 12px;
 
@@ -31,6 +37,28 @@
   --font-display: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* ---- Type scale ----
+     Nine steps. Anything that wants a size picks the nearest rung rather
+     than inventing one; that is what keeps the small end from drifting
+     back into 13/13.5/14/14.5. */
+  --t-micro: 11px;    /* captions burned over images */
+  --t-label: 12px;    /* uppercase mono labels */
+  --t-fine: 13.5px;   /* bios, meta, footer, form labels */
+  --t-sm: 14.5px;     /* card body, buttons, nav */
+  --t-base: 16px;     /* default body */
+  --t-lg: 17px;       /* lede + prose, and item headings */
+  --t-xl: 19px;       /* news headline */
+  --t-2xl: 30px;      /* section heading */
+  --t-3xl: clamp(32px, 4.6vw, 50px);   /* page headline */
+
+  /* ---- Tracking ----
+     Negative on large type, positive on small caps. One value for each
+     job; the old file had five different trackings doing one of them. */
+  --track-tight: -0.01em;   /* 26px and up */
+  --track-label: 0.08em;    /* uppercase mono labels */
+  --track-wide: 0.14em;     /* the masthead subtitle only */
+  --track-caption: 0.03em;  /* mixed-case mono captions */
 }
 
 * { box-sizing: border-box; }
@@ -41,7 +69,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: var(--t-base);
   line-height: 1.6;
 }
 
@@ -54,6 +82,64 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 img { max-width: 100%; display: block; }
 
 .sheet { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+/* ============================================================
+   Mono micro-label
+
+   One component used in ten places — masthead affiliation, hero
+   eyebrow, section kicker, epigraph citation, quote attribution,
+   talk venue, news date, publication tag, address label. Each of
+   these used to carry its own size, tracking and colour, which is
+   why no two of them matched. They now inherit from here and
+   declare only their genuine deviations further down.
+
+   Layout (margin, padding) deliberately stays with each component;
+   only the typography is shared.
+   ============================================================ */
+
+.masthead-sub,
+.masthead-id,
+.hero-eyebrow,
+.section-head .kicker,
+.epigraph cite,
+.quote-card .attr,
+.talk-card .venue,
+.news-item .date,
+.address-block .address-label,
+.pub .tag {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Two golds, one rule, so it stops being a coin-flip:
+     --accent      (#d9a344, deeper) — solid fills and marks: button
+                   grounds, the card mark, focus rings, slideshow dots.
+     --accent-deep (#f0c274, lighter) — label TEXT and link hover, where
+                   it needs to carry contrast against --paper.
+   The names are inherited and read backwards — "deep" is the lighter
+   of the two. Worth renaming, but that is its own change. */
+.masthead-sub,
+.hero-eyebrow,
+.section-head .kicker,
+.news-item .date {
+  color: var(--accent-deep);
+}
+
+/* Mono caption burned over an image or figure. Mixed case, not uppercase,
+   so it takes caption tracking rather than label tracking. The two
+   selectors were byte-identical before; positioning stays per-component. */
+.photo-frame .cap,
+.slideshow figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--track-caption);
+  color: var(--ink-on-image);
+  padding: 12px 16px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
 
 /* ---------- Nav ---------- */
 
@@ -100,7 +186,7 @@ header.masthead {
   font-weight: 700;
   line-height: 1.15;
   margin: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--track-tight);
 }
 
 /* Stretches to the lockup's line box rather than carrying a fixed height,
@@ -117,24 +203,15 @@ header.masthead {
    wide leaves a trailing gap on the right, which is invisible while the
    block stays left-aligned. */
 .masthead-sub {
-  font-family: var(--font-mono);
-  font-size: 12px;
   font-weight: 500;
   line-height: 1;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
+  /* The one deliberately airy label on the site — it reads as part of the
+     wordmark, not as a caption, so it keeps its wider tracking. */
+  letter-spacing: var(--track-wide);
   margin: 0;
 }
 
-.masthead-id {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--ink-soft);
-  text-transform: uppercase;
-  margin: 0;
-}
+.masthead-id { margin: 0; }
 
 /* On narrow screens the nav wraps below the wordmark and the lockup can no
    longer hold one line, so the subtitle drops under the name. The hairline
@@ -144,7 +221,7 @@ header.masthead {
   .masthead-lockup { gap: 4px; }
   .masthead-bar { display: none; }
   .masthead-name { font-size: 22px; }
-  .masthead-sub { font-size: 11px; letter-spacing: 0.1em; }
+  .masthead-sub { font-size: var(--t-micro); letter-spacing: var(--track-label); }
 }
 
 nav.primary-nav ul {
@@ -153,7 +230,7 @@ nav.primary-nav ul {
   gap: 28px;
   margin: 0;
   padding: 0;
-  font-size: 14px;
+  font-size: var(--t-sm);
   font-weight: 500;
 }
 
@@ -163,7 +240,7 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
 .btn-nav {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: var(--t-fine);
   background: var(--ink);
   color: var(--paper) !important;
   padding: 10px 20px;
@@ -220,12 +297,6 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
 .photo-frame .cap {
   position: relative;
   z-index: 1;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: rgba(255,255,255,0.85);
-  padding: 12px 16px;
-  letter-spacing: 0.03em;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
 /* ---------- Hero ---------- */
@@ -242,25 +313,18 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
   .hero { grid-template-columns: 1fr; }
 }
 
-.hero-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--accent-deep);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 16px;
-}
+.hero-eyebrow { margin: 0 0 16px; }
 
 .hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(32px, 4.6vw, 50px);
+  font-size: var(--t-3xl);
   line-height: 1.08;
   margin: 0 0 20px;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--track-tight);
 }
 
-.hero p.lede { font-size: 17.5px; color: var(--ink-soft); max-width: 52ch; margin: 0 0 28px; }
+.hero p.lede { font-size: var(--t-lg); color: var(--ink-soft); max-width: 52ch; margin: 0 0 28px; }
 
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
@@ -268,7 +332,7 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
   display: inline-block;
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 14px;
+  font-size: var(--t-sm);
   padding: 13px 24px;
   border-radius: 100px;
   text-decoration: none;
@@ -276,7 +340,7 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
   color: var(--ink);
 }
 .btn:hover { background: var(--ink); color: var(--paper); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .btn.primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
 
 .hero .photo-frame { min-height: 320px; }
@@ -291,17 +355,11 @@ nav.primary-nav a:hover, nav.primary-nav a[aria-current="page"] { color: var(--a
   margin: 0 0 10px;
   font-family: var(--font-body);
   font-style: italic;
-  font-size: 17px;
+  font-size: var(--t-lg);
   color: var(--ink-soft);
 }
-.epigraph cite {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-style: normal;
-  color: var(--ink-soft);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
+/* Overrides <cite>'s UA italic; the label rule handles the rest. */
+.epigraph cite { font-style: normal; }
 
 /* ---------- Site-wide entrance animation ---------- */
 
@@ -421,12 +479,6 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
   left: 0;
   bottom: 0;
   z-index: 1;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: rgba(255,255,255,0.85);
-  padding: 12px 16px;
-  letter-spacing: 0.03em;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
 .slideshow .dots {
@@ -476,10 +528,10 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 
 .intro-prose h1 {
   font-family: var(--font-display);
-  font-size: clamp(32px, 4.6vw, 50px);
+  font-size: var(--t-3xl);
   line-height: 1.08;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--track-tight);
   color: var(--ink);
   text-align: center;
   margin: 0 0 26px;
@@ -488,7 +540,7 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 /* Hyphenation keeps justified text from opening up rivers of whitespace
    between words on narrow viewports. */
 .intro-prose p {
-  font-size: 17px;
+  font-size: var(--t-lg);
   line-height: 1.72;
   color: var(--ink-soft);
   text-align: justify;
@@ -506,18 +558,11 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
   max-width: 640px;
 }
 
-.section-head .kicker {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--accent-deep);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 10px;
-}
+.section-head .kicker { margin: 0 0 10px; }
 
 .section-head h2 {
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: var(--t-2xl);
   font-weight: 700;
   margin: 0 0 10px;
 }
@@ -549,14 +594,14 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
   width: 40px; height: 40px;
   border-radius: 10px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-weight: 700; font-size: 15px;
+  font-family: var(--font-display); font-weight: 700; font-size: var(--t-sm);
   margin-bottom: 16px;
 }
 
-.card h3 { font-family: var(--font-display); font-size: 17.5px; margin: 0 0 8px; }
-.card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; }
+.card h3 { font-family: var(--font-display); font-size: var(--t-lg); margin: 0 0 8px; }
+.card p { margin: 0; color: var(--ink-soft); font-size: var(--t-sm); }
 
 /* ---------- Project / recent-work strip ---------- */
 
@@ -572,7 +617,7 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 .project-strip .proj-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 14px;
+  font-size: var(--t-sm);
   margin-top: 10px;
 }
 
@@ -612,9 +657,9 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
   margin-bottom: 14px;
 }
 
-.team-member h3 { font-family: var(--font-display); font-size: 16.5px; margin: 0 0 2px; }
-.team-member .role { font-size: 13px; color: var(--accent-deep); font-weight: 600; margin-bottom: 8px; }
-.team-member p.bio { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+.team-member h3 { font-family: var(--font-display); font-size: var(--t-lg); margin: 0 0 2px; }
+.team-member .role { font-size: var(--t-fine); color: var(--accent-deep); font-weight: 600; margin-bottom: 8px; }
+.team-member p.bio { font-size: var(--t-fine); color: var(--ink-soft); margin: 0; }
 
 /* Larger single-person spotlight (PI) */
 .person-spotlight {
@@ -642,9 +687,8 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
   border-radius: var(--radius-sm);
   padding: 26px 24px;
 }
-.quote-card p.q { font-size: 15px; margin: 0 0 16px; }
+.quote-card p.q { font-size: var(--t-base); margin: 0 0 16px; }
 .quote-card p.q::before { content: "\201C"; color: var(--accent); font-size: 28px; line-height: 0; display: inline-block; vertical-align: -6px; margin-right: 2px; }
-.quote-card .attr { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.03em; }
 
 /* ---------- Talks ---------- */
 
@@ -721,20 +765,13 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 
 .talk-card h3 {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: var(--t-lg);
   line-height: 1.4;
   margin: 0 0 4px;
 }
 .talk-card:hover h3 { color: var(--accent-deep); }
 
-.talk-card .venue {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--ink-soft);
-  margin: 0;
-}
+.talk-card .venue { margin: 0; }
 
 /* ---------- Publications ---------- */
 
@@ -743,15 +780,15 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
   padding: 20px 0;
   border-bottom: 1px solid var(--line);
 }
-.pub h3 { font-size: 16.5px; margin: 0 0 4px; font-weight: 600; }
+.pub h3 { font-size: var(--t-lg); margin: 0 0 4px; font-weight: 600; }
 .pub h3 a { color: var(--ink); text-decoration: none; }
 .pub h3 a:hover { color: var(--accent-deep); text-decoration: underline; }
-.pub .meta { font-size: 13px; color: var(--ink-soft); }
+.pub .meta { font-size: var(--t-fine); color: var(--ink-soft); }
+/* A pill, so it takes a border and its own colour; type comes from the
+   label rule. It previously had no tracking at all, which is why it sat
+   tighter than every other label on the page. */
 .pub .tag {
   display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
   border-radius: 100px;
   border: 1px solid var(--teal);
   color: var(--teal);
@@ -770,15 +807,8 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 }
 @media (max-width: 620px) { .news-item { grid-template-columns: 1fr; } }
 
-.news-item .date {
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--accent-deep);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  padding-top: 3px;
-}
-.news-item h3 { font-family: var(--font-display); font-size: 19px; margin: 0 0 8px; }
+.news-item .date { padding-top: 3px; }
+.news-item h3 { font-family: var(--font-display); font-size: var(--t-xl); margin: 0 0 8px; }
 .news-item p { color: var(--ink-soft); margin: 0; max-width: 62ch; }
 
 /* ---------- Contact ---------- */
@@ -792,7 +822,7 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 }
 
 .contact-note p {
-  font-size: 17px;
+  font-size: var(--t-lg);
   line-height: 1.72;
   color: var(--ink-soft);
   margin: 0 0 20px;
@@ -804,7 +834,7 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
    and the accent rather than sitting inside a run of prose. */
 .contact-note .email {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: var(--t-base);
   margin-bottom: 28px;
 }
 
@@ -829,17 +859,10 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 
 /* A quiet mono label, in the same register as .masthead-id rather than
    another heading. */
-.address-block .address-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--ink-soft);
-  margin: 0 0 8px;
-}
+.address-block .address-label { margin: 0 0 8px; }
 
 .address-block .address {
-  font-size: 15.5px;
+  font-size: var(--t-base);
   line-height: 1.6;
   color: var(--ink);
   margin: 0;
@@ -870,7 +893,7 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
 
 .field { margin-bottom: 18px; }
 .field label {
-  display: block; font-size: 13px; font-weight: 600; color: var(--ink-soft);
+  display: block; font-size: var(--t-fine); font-weight: 600; color: var(--ink-soft);
   margin-bottom: 6px;
 }
 .field input, .field textarea {
@@ -880,7 +903,7 @@ main.sheet > *:not(.epigraph):not(.hero-home):not(.grid):nth-child(n+7) { animat
   background: var(--surface);
   padding: 12px 14px;
   font-family: var(--font-body);
-  font-size: 14.5px;
+  font-size: var(--t-sm);
   color: var(--ink);
 }
 .field input:focus, .field textarea:focus { border-color: var(--accent); }
@@ -900,7 +923,7 @@ footer.site-footer {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  font-size: 13.5px;
+  font-size: var(--t-fine);
   color: var(--ink-soft);
 }
 .footer-inner a { color: var(--ink-soft); }
